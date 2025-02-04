@@ -1,0 +1,5 @@
+pydantic
+requests
+openai
+colorama
+pyfiglet
