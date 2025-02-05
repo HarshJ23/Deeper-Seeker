@@ -1,0 +1,6 @@
+openai
+requests
+colorama
+pydantic
+pyfiglet
+python-dotenv

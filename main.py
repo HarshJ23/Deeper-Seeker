@@ -9,16 +9,20 @@ from openai import OpenAI
 from colorama import Fore, Style, init
 import time
 import pyfiglet
-
+from dotenv import dotenv_values
 
 init(autoreset=True)
 
+# Avoid persistence between sessions of .env loaded variables
+config = dotenv_values(".env")
 
-EXA_API_KEY = os.getenv("EXA_API_KEY")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+EXA_API_KEY = config.get("EXA_API_KEY") or os.getenv("EXA_API_KEY")
+OPENAI_API_KEY = config.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+OPENAI_BASE_URL = config.get("OPENAI_BASE_URL") or os.getenv("OPENAI_BASE_URL")
+OPENAI_MODEL = config.get("OPENAI_MODEL") or os.getenv("OPENAI_MODEL") or "gpt-4-turbo"
 EXA_BASE_URL = "https://api.exa.ai"
 
-openai_client = OpenAI(api_key=OPENAI_API_KEY)
+openai_client = OpenAI(base_url=OPENAI_BASE_URL, api_key=OPENAI_API_KEY)
 
 sys_prompt = """
 You are a highly capable AI research expert operating like a junior analyst in venture capital, consulting, or investment banking. Your role involves comprehensive market research, competitor analysis, and qualitative studies. You excel in understanding complex queries, reasoning through challenges, and strategic planning.
@@ -70,7 +74,7 @@ def generate_research_step(user_query: str, context: List[Dict[str, Any]] = []) 
         })
     
     response = openai_client.chat.completions.create(
-        model="gpt-4-turbo",
+        model=OPENAI_MODEL,
         messages=messages,
         temperature=0.3,
         response_format={"type": "json_object"},
@@ -108,7 +112,7 @@ def generate_final_report(context: List[Dict[str, Any]]) -> str:
     )
     
     response = openai_client.chat.completions.create(
-        model="gpt-4-turbo",
+        model=OPENAI_MODEL,
         messages=[
             {"role": "system", "content": sys_prompt + "\n\nMaintain the inline citations provided in the data and use them in final answer as inline citations. give output in md and Synthesize the final report using the following research data:"},
             {"role": "user", "content": research_history}
