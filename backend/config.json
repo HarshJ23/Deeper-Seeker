@@ -1,0 +1,36 @@
+{
+    "ai_providers": {
+      "followup": "openai",
+      "research_plan": "openai",
+      "query_generation": "openai",
+      "report_generation": "openai"
+    },
+    "models": {
+      "openai": {
+        "followup": "nousresearch/hermes-3-llama-3.1-405b",
+        "research_plan": "nousresearch/hermes-3-llama-3.1-405b",
+        "query_generation": "nousresearch/hermes-3-llama-3.1-405b",
+        "report_generation": "nousresearch/hermes-3-llama-3.1-405b"
+      },
+      "groq": {
+        "followup": "llama-3.3-70b-versatile",
+        "research_plan": "llama-3.3-70b-versatile",
+        "query_generation": "llama-3.3-70b-versatile",
+        "report_generation": "llama-3.3-70b-versatile"
+      },
+      "gemini": {
+        "followup": "gemini-1.5-pro",
+        "research_plan": "gemini-1.5-pro",
+        "query_generation": "gemini-1.5-pro",
+        "report_generation": "gemini-2.0-flash"
+      }
+    },
+    "search": {
+      "provider": "exa"
+    },
+    "settings": {
+        "followup_iterations": 1,
+        "report_save_path": "/reports",
+        "report_name_format": "final_report_{date}_{n}.md"
+    }
+  }
